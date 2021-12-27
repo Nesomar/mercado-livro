@@ -2,13 +2,11 @@ package br.com.academy.mercadolivro.service
 
 import br.com.academy.mercadolivro.model.Customer
 import br.com.academy.mercadolivro.repository.CustomerRepository
+import org.springframework.context.annotation.Lazy
 import org.springframework.stereotype.Service
-import java.util.*
 
 @Service
-class CustomerService(val customerRepository: CustomerRepository) {
-
-    val customers = mutableListOf<Customer>();
+class CustomerService(val customerRepository: CustomerRepository, @Lazy val bookService: BookService) {
 
     fun findByName(name: String?): List<Customer> {
         name?.let {
@@ -29,9 +27,8 @@ class CustomerService(val customerRepository: CustomerRepository) {
     }
 
     fun deleteCustomer(id: Int) {
-        if (customerRepository.existsById(id)) {
-            customerRepository.deleteById(id)
-        }
+        val customer = findCustomerById(id)
+        bookService.deleteByCustomer(customer)
     }
 
     fun createCustomer(customer: Customer): Int? {

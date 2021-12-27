@@ -2,11 +2,13 @@ package br.com.academy.mercadolivro.service
 
 import br.com.academy.mercadolivro.enums.BookStatus
 import br.com.academy.mercadolivro.model.Book
+import br.com.academy.mercadolivro.model.Customer
 import br.com.academy.mercadolivro.repository.BookRepository
+import org.springframework.context.annotation.Lazy
 import org.springframework.stereotype.Service
 
 @Service
-class BookService(val bookRepository: BookRepository, val customerService: CustomerService) {
+class BookService(val bookRepository: BookRepository, @Lazy val customerService: CustomerService) {
 
     fun createBook(books: Book, customerId: Int): Int {
         val customer = customerService.findCustomerById(customerId)
@@ -27,15 +29,20 @@ class BookService(val bookRepository: BookRepository, val customerService: Custo
     }
 
     fun deleteById(id: Int) {
-
         val books = findById(id)
-
         books.status = BookStatus.CANCELADO
-
         bookRepository.save(books)
     }
 
     fun updateBook(book: Book) {
         bookRepository.save(book)
+    }
+
+    fun deleteByCustomer(customer: Customer) {
+        val books = bookRepository.findByCustomer(customer)
+        for (book in books) {
+            book.status = BookStatus.DELETADO
+        }
+        bookRepository.saveAll(books)
     }
 }
