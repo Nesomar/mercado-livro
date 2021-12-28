@@ -5,6 +5,8 @@ import br.com.academy.mercadolivro.model.Book
 import br.com.academy.mercadolivro.model.Customer
 import br.com.academy.mercadolivro.repository.BookRepository
 import org.springframework.context.annotation.Lazy
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
@@ -16,12 +18,12 @@ class BookService(val bookRepository: BookRepository, @Lazy val customerService:
         return bookRepository.save(books).id!!
     }
 
-    fun findAll(): List<Book> {
-        return bookRepository.findAll().toList()
+    fun findAll(pageable: Pageable): Page<Book> {
+        return bookRepository.findAll(pageable)
     }
 
-    fun findByStatus(): List<Book> {
-        return bookRepository.findByStatus(BookStatus.ATIVO)
+    fun findByStatus(pageable: Pageable): Page<Book> {
+        return bookRepository.findByStatus(BookStatus.ATIVO, pageable)
     }
 
     fun findById(id: Int): Book {

@@ -1,5 +1,6 @@
 package br.com.academy.mercadolivro.service
 
+import br.com.academy.mercadolivro.enums.CustomerStatus
 import br.com.academy.mercadolivro.model.Customer
 import br.com.academy.mercadolivro.repository.CustomerRepository
 import org.springframework.context.annotation.Lazy
@@ -29,6 +30,10 @@ class CustomerService(val customerRepository: CustomerRepository, @Lazy val book
     fun deleteCustomer(id: Int) {
         val customer = findCustomerById(id)
         bookService.deleteByCustomer(customer)
+
+        customer.status = CustomerStatus.INATIVO
+
+        customerRepository.save(customer)
     }
 
     fun createCustomer(customer: Customer): Int? {
