@@ -2,5 +2,7 @@ package br.com.academy.mercadolivro.controller.request
 
 import java.math.BigDecimal
 
-data class PutBookRequest(var name: String?,
-                          var price: BigDecimal?)
+data class PutBookRequest(
+    var name: String?,
+    var price: BigDecimal?
+)

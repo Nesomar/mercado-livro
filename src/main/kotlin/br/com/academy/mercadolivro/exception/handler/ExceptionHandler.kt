@@ -2,9 +2,12 @@ package br.com.academy.mercadolivro.exception.handler
 
 import br.com.academy.mercadolivro.exception.BadRequestException
 import br.com.academy.mercadolivro.exception.NotFoundException
+import br.com.academy.mercadolivro.exception.enums.CommonErrorCode
 import br.com.academy.mercadolivro.exception.model.ErrorResponse
+import br.com.academy.mercadolivro.exception.model.FieldErrorResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.context.request.WebRequest
@@ -24,5 +27,25 @@ class ExceptionHandler {
     fun badRequestExceptionHandler(exception: BadRequestException, request: WebRequest): ResponseEntity<ErrorResponse> {
         return ResponseEntity.badRequest()
             .body(ErrorResponse(HttpStatus.BAD_REQUEST.value(), exception.message, exception.errorCode))
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException::class)
+    fun methodArgumentNotValidExceptionHandler(
+        exception: MethodArgumentNotValidException,
+        request: WebRequest
+    ): ResponseEntity<ErrorResponse> {
+        return ResponseEntity.badRequest()
+            .body(
+                ErrorResponse(
+                    HttpStatus.UNPROCESSABLE_ENTITY.value(),
+                    CommonErrorCode.ML001.message,
+                    CommonErrorCode.ML001.code,
+                    exception.bindingResult.fieldErrors.map {
+                        FieldErrorResponse(
+                            it.defaultMessage ?: "invalid",
+                            it.field
+                        )
+                    })
+            )
     }
 }
