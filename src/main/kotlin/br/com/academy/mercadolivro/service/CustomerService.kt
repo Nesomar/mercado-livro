@@ -42,4 +42,8 @@ class CustomerService(val customerRepository: CustomerRepository, @Lazy val book
     fun createCustomer(customer: Customer): Int? {
         return customerRepository.save(customer).id
     }
+
+    fun emailAvailable(value: String?): Boolean {
+        return !customerRepository.existsByEmail(value)
+    }
 }

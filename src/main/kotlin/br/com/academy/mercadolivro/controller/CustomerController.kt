@@ -4,10 +4,10 @@ import br.com.academy.mercadolivro.controller.request.CustomerRequest
 import br.com.academy.mercadolivro.controller.response.CustomerResponse
 import br.com.academy.mercadolivro.extension.toCustomer
 import br.com.academy.mercadolivro.extension.toCustomerResponse
-import br.com.academy.mercadolivro.model.Customer
 import br.com.academy.mercadolivro.service.CustomerService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("customers")
@@ -25,7 +25,7 @@ class CustomerController(val customerService: CustomerService) {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun updateCustomer(@PathVariable id: Int, @RequestBody customerRequest: CustomerRequest) {
+    fun updateCustomer(@PathVariable id: Int, @RequestBody @Valid customerRequest: CustomerRequest) {
         val customer = customerService.findCustomerById(id)
         return customerService.updateCustomer(customerRequest.toCustomer(customer))
     }
@@ -38,7 +38,7 @@ class CustomerController(val customerService: CustomerService) {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun createCustomer(@RequestBody customerRequest: CustomerRequest): Int? {
+    fun createCustomer(@RequestBody @Valid customerRequest: CustomerRequest): Int? {
         return customerService.createCustomer(customerRequest.toCustomer())
     }
 }
