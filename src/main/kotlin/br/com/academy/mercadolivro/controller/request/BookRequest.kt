@@ -8,5 +8,4 @@ data class BookRequest(
     var price: BigDecimal,
     @JsonAlias("customer_id")
     var customerId: Int
-) {
-}
+)

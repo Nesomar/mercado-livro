@@ -1,6 +1,8 @@
 package br.com.academy.mercadolivro.service
 
 import br.com.academy.mercadolivro.enums.BookStatus
+import br.com.academy.mercadolivro.exception.enums.CommonErrorCode
+import br.com.academy.mercadolivro.exception.NotFoundException
 import br.com.academy.mercadolivro.model.Book
 import br.com.academy.mercadolivro.model.Customer
 import br.com.academy.mercadolivro.repository.BookRepository
@@ -27,7 +29,8 @@ class BookService(val bookRepository: BookRepository, @Lazy val customerService:
     }
 
     fun findById(id: Int): Book {
-        return bookRepository.findById(id).orElseThrow()
+        return bookRepository.findById(id)
+            .orElseThrow { NotFoundException(CommonErrorCode.ML101.message.format(id), CommonErrorCode.ML101.code) }
     }
 
     fun deleteById(id: Int) {

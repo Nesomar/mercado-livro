@@ -1,6 +1,8 @@
 package br.com.academy.mercadolivro.service
 
 import br.com.academy.mercadolivro.enums.CustomerStatus
+import br.com.academy.mercadolivro.exception.enums.CommonErrorCode
+import br.com.academy.mercadolivro.exception.NotFoundException
 import br.com.academy.mercadolivro.model.Customer
 import br.com.academy.mercadolivro.repository.CustomerRepository
 import org.springframework.context.annotation.Lazy
@@ -17,7 +19,8 @@ class CustomerService(val customerRepository: CustomerRepository, @Lazy val book
     }
 
     fun findCustomerById(id: Int): Customer {
-        return customerRepository.findById(id).orElseThrow()
+        return customerRepository.findById(id)
+            .orElseThrow { NotFoundException(CommonErrorCode.ML201.message.format(id), CommonErrorCode.ML201.code) }
 
     }
 
