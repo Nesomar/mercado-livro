@@ -2,9 +2,13 @@ package br.com.academy.mercadolivro.controller
 
 import br.com.academy.mercadolivro.controller.request.BookRequest
 import br.com.academy.mercadolivro.controller.request.PutBookRequest
+import br.com.academy.mercadolivro.controller.response.BookResponse
 import br.com.academy.mercadolivro.extension.toBook
-import br.com.academy.mercadolivro.model.Book
+import br.com.academy.mercadolivro.extension.toBookResponse
 import br.com.academy.mercadolivro.service.BookService
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
@@ -18,13 +22,15 @@ class BookController(val bookService: BookService) {
         bookService.createBook(bookRequest.toBook(), bookRequest.customerId)
 
     @GetMapping
-    fun findAll(): List<Book> = bookService.findAll()
+    fun findAll(@PageableDefault(page = 0, size = 10) pageable: Pageable)
+            : Page<BookResponse> = bookService.findAll(pageable).map { it.toBookResponse() }
 
     @GetMapping("/actives")
-    fun findByStatus(): List<Book> = bookService.findByStatus()
+    fun findByStatus(@PageableDefault(page = 0, size = 10) pageable: Pageable)
+            : Page<BookResponse> = bookService.findByStatus(pageable).map { it.toBookResponse() }
 
     @GetMapping("/{id}")
-    fun findById(@PathVariable id: Int) : Book = bookService.findById(id)
+    fun findById(@PathVariable id: Int): BookResponse = bookService.findById(id).toBookResponse()
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

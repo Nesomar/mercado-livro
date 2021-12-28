@@ -1,7 +1,9 @@
 package br.com.academy.mercadolivro.controller
 
 import br.com.academy.mercadolivro.controller.request.CustomerRequest
+import br.com.academy.mercadolivro.controller.response.CustomerResponse
 import br.com.academy.mercadolivro.extension.toCustomer
+import br.com.academy.mercadolivro.extension.toCustomerResponse
 import br.com.academy.mercadolivro.model.Customer
 import br.com.academy.mercadolivro.service.CustomerService
 import org.springframework.http.HttpStatus
@@ -12,13 +14,13 @@ import org.springframework.web.bind.annotation.*
 class CustomerController(val customerService: CustomerService) {
 
     @GetMapping
-    fun findByName(@RequestParam name: String?): List<Customer> {
-        return customerService.findByName(name)
+    fun findByName(@RequestParam name: String?): List<CustomerResponse> {
+        return customerService.findByName(name).map { it.toCustomerResponse() }
     }
 
     @GetMapping("/{id}")
-    fun findCustomerById(@PathVariable id: Int): Customer {
-        return customerService.findCustomerById(id)
+    fun findCustomerById(@PathVariable id: Int): CustomerResponse {
+        return customerService.findCustomerById(id).toCustomerResponse()
     }
 
     @PutMapping("/{id}")
