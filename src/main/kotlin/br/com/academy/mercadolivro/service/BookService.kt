@@ -50,4 +50,11 @@ class BookService(val bookRepository: BookRepository, @Lazy val customerService:
         }
         bookRepository.saveAll(books)
     }
+
+    fun findAllById(bookIds: Set<Int>) = bookRepository.findAllById(bookIds).toList()
+
+    fun purchase(books: MutableList<Book>) {
+        books.map { it.status = BookStatus.VENDIDO }
+        bookRepository.saveAll(books)
+    }
 }
