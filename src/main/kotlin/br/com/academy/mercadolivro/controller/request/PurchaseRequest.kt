@@ -8,7 +8,7 @@ data class PurchaseRequest(
 
     @field:NotNull
     @field:Positive
-    @JsonAlias("customer_id")
+    @JsonAlias("customers_id")
     val customerId: Int,
 
     @field:NotNull

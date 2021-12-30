@@ -20,7 +20,7 @@ class Book(
     var price: BigDecimal,
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customers_id")
     var customer: Customer? = null
 ) {
 

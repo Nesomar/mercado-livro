@@ -15,6 +15,5 @@ class GeneratedNfeListener(private val purchaseService: PurchaseService) {
     fun generatedNFEListener(purchaseEvent: PurchaseEvent) {
         purchaseEvent.purchase.nfe = UUID.randomUUID().toString()
         purchaseService.update(purchaseEvent.purchase)
-
     }
 }

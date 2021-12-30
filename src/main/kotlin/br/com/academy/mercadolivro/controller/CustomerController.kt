@@ -11,7 +11,7 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping("customers")
-class CustomerController(val customerService: CustomerService) {
+class CustomerController(private val customerService: CustomerService) {
 
     @GetMapping
     fun findByName(@RequestParam name: String?): List<CustomerResponse> {
@@ -26,7 +26,7 @@ class CustomerController(val customerService: CustomerService) {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun updateCustomer(@PathVariable id: Int, @RequestBody @Valid customerRequest: CustomerRequest) {
-        val customer = customerService.findCustomerById(id)
+        var customer = customerService.findCustomerById(id)
         return customerService.updateCustomer(customerRequest.toCustomer(customer))
     }
 

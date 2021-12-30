@@ -2,10 +2,10 @@
 
 CREATE TABLE purchases(
     id INT AUTO_INCREMENT PRIMARY KEY,
-    customer_id INT NOT NULL,
+    customers_id INT NOT NULL,
     nfe VARCHAR(255),
     created_at DATETIME NOT NULL,
-    FOREIGN KEY(customer_id) REFERENCES customers(id)
+    FOREIGN KEY(customers_id) REFERENCES customers(id)
 );
 
 CREATE TABLE purchases_books(
