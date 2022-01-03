@@ -12,9 +12,9 @@ class PurchaseService(
     private val applicationEventPublisher: ApplicationEventPublisher
 ) {
 
-    fun create(purchase: Purchase): Int? {
+    fun create(purchase: Purchase) {
+        purchaseRepository.save(purchase)
         applicationEventPublisher.publishEvent(PurchaseEvent(this, purchase))
-        return purchaseRepository.save(purchase).id
     }
 
     fun update(purchase: Purchase) {

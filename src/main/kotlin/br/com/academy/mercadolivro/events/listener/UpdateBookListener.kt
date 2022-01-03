@@ -12,7 +12,6 @@ class UpdateBookListener(private val bookService: BookService) {
     @Async
     @EventListener
     fun updateBookListener(purchaseEvent: PurchaseEvent) {
-
         bookService.purchase(purchaseEvent.purchase.books)
     }
 }

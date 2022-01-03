@@ -10,5 +10,8 @@ data class CustomerRequest(
 
     @field:Email
     @EmailAvailable
-    var email: String
+    var email: String,
+
+    @field:NotBlank
+    var password: String
 )

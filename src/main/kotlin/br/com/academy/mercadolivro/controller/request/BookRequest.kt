@@ -10,7 +10,7 @@ data class BookRequest(
     var name: String,
     @field:NotNull
     var price: BigDecimal,
-    @JsonAlias("customer_id")
+    @JsonAlias("customers_id")
     @field:NotNull
     var customerId: Int
 )

@@ -11,10 +11,10 @@ import br.com.academy.mercadolivro.model.Book
 import br.com.academy.mercadolivro.model.Customer
 
 fun CustomerRequest.toCustomer(): Customer =
-    Customer(name = this.nome, email = this.email, status = CustomerStatus.ATIVO)
+    Customer(name = this.nome, email = this.email, status = CustomerStatus.ATIVO, password = this.password)
 
 fun CustomerRequest.toCustomer(previousValue: Customer): Customer = Customer(
-    id = previousValue.id, this.nome, this.email, status = previousValue.status
+    id = previousValue.id, this.nome, this.email, status = previousValue.status, password = previousValue.password
 )
 
 fun BookRequest.toBook(): Book = Book(

@@ -13,7 +13,7 @@ class PurchaseController(private val purchaseService: PurchaseService, private v
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun purchase(@RequestBody @Valid purchaseRequest: PurchaseRequest): Int? {
-        return purchaseService.create(purchaseMapper.toModel(purchaseRequest))
+    fun purchase(@RequestBody @Valid purchaseRequest: PurchaseRequest) {
+        purchaseService.create(purchaseMapper.toModel(purchaseRequest))
     }
 }

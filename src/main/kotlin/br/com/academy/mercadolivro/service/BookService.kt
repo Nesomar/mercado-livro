@@ -12,7 +12,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
-class BookService(val bookRepository: BookRepository, @Lazy val customerService: CustomerService) {
+class BookService(private val bookRepository: BookRepository, @Lazy private val customerService: CustomerService) {
 
     fun createBook(books: Book, customerId: Int): Int {
         val customer = customerService.findCustomerById(customerId)
