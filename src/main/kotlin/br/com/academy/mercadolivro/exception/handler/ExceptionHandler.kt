@@ -38,8 +38,8 @@ class ExceptionHandler {
             .body(
                 ErrorResponse(
                     HttpStatus.UNPROCESSABLE_ENTITY.value(),
-                    CommonErrorCode.ML001.message,
-                    CommonErrorCode.ML001.code,
+                    CommonErrorCode.ML005.message,
+                    CommonErrorCode.ML005.code,
                     exception.bindingResult.fieldErrors.map {
                         FieldErrorResponse(
                             it.defaultMessage ?: "invalid",

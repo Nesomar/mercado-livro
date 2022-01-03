@@ -2,6 +2,7 @@ package br.com.academy.mercadolivro.security
 
 import br.com.academy.mercadolivro.controller.request.LoginRequest
 import br.com.academy.mercadolivro.exception.AuthenticationException
+import br.com.academy.mercadolivro.exception.enums.CommonErrorCode
 import br.com.academy.mercadolivro.service.CustomerService
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.springframework.security.authentication.AuthenticationManager
@@ -14,7 +15,8 @@ import javax.servlet.http.HttpServletResponse
 
 class AuthenticationFilter(
     authenticationManager: AuthenticationManager,
-    private val customerService: CustomerService
+    private val customerService: CustomerService,
+    private val jwtUtil: JwtUtil
 ) : UsernamePasswordAuthenticationFilter(authenticationManager) {
 
     override fun attemptAuthentication(request: HttpServletRequest, response: HttpServletResponse?): Authentication {
@@ -28,7 +30,7 @@ class AuthenticationFilter(
 
             return authenticationManager.authenticate(authToken)
         } catch (exception: Exception) {
-            throw AuthenticationException("Falha ao tentar autenticar", "999")
+            throw AuthenticationException(CommonErrorCode.ML002.message, CommonErrorCode.ML002.code)
         }
     }
 
@@ -40,6 +42,8 @@ class AuthenticationFilter(
     ) {
         val idUser = (authResult.principal as UserCustomDetails).id
 
-        response.addHeader("Authorization", "123456")
+        val token = jwtUtil.generateToken(idUser)
+
+        response.addHeader("Authorization", "Bearer $token")
     }
 }
