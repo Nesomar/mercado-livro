@@ -20,7 +20,7 @@ class AuthorizationFilter(
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, chain: FilterChain) {
         val authorization = request.getHeader("Authorization")
         if(authorization != null && authorization.startsWith("Bearer ")){
-            var auth = getAuthentication(authorization.split(" ")[1])
+            val auth = getAuthentication(authorization.split(" ")[1])
 
             SecurityContextHolder.getContext().authentication = auth
         }
