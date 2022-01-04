@@ -6,6 +6,7 @@ plugins {
 	kotlin("jvm") version "1.6.10"
 	kotlin("plugin.spring") version "1.6.10"
 	kotlin("plugin.jpa") version "1.6.10"
+	jacoco
 }
 
 group = "br.com.academy"
@@ -26,10 +27,12 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("io.springfox:springfox-swagger2:3.0.0")
-	implementation("io.springfox:springfox-swagger-ui:2.8.0")
+	implementation("io.springfox:springfox-swagger-ui:3.0.0")
 	implementation("io.jsonwebtoken:jjwt:0.9.1")
 	runtimeOnly("mysql:mysql-connector-java")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("io.mockk:mockk:1.12.2")
+
 }
 
 tasks.withType<KotlinCompile> {
