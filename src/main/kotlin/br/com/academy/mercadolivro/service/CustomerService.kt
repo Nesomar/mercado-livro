@@ -19,7 +19,7 @@ class CustomerService(
 
     fun findByName(name: String?): List<Customer> {
         name?.let {
-            return customerRepository.findByNameContaining(name)
+            return customerRepository.findByNameContaining(it)
         }
         return customerRepository.findAll().toList()
     }
