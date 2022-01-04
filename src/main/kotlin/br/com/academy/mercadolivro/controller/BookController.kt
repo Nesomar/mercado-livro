@@ -3,8 +3,10 @@ package br.com.academy.mercadolivro.controller
 import br.com.academy.mercadolivro.controller.request.BookRequest
 import br.com.academy.mercadolivro.controller.request.PutBookRequest
 import br.com.academy.mercadolivro.controller.response.BookResponse
+import br.com.academy.mercadolivro.controller.response.PageResponse
 import br.com.academy.mercadolivro.extension.toBook
 import br.com.academy.mercadolivro.extension.toBookResponse
+import br.com.academy.mercadolivro.extension.toPageResponse
 import br.com.academy.mercadolivro.service.BookService
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -24,11 +26,12 @@ class BookController(private val bookService: BookService) {
 
     @GetMapping
     fun findAll(@PageableDefault(page = 0, size = 10) pageable: Pageable)
-            : Page<BookResponse> = bookService.findAll(pageable).map { it.toBookResponse() }
+            : PageResponse<BookResponse> = bookService.findAll(pageable).map { it.toBookResponse() }.toPageResponse()
 
     @GetMapping("/actives")
     fun findByStatus(@PageableDefault(page = 0, size = 10) pageable: Pageable)
-            : Page<BookResponse> = bookService.findByStatus(pageable).map { it.toBookResponse() }
+            : PageResponse<BookResponse> =
+        bookService.findByStatus(pageable).map { it.toBookResponse() }.toPageResponse()
 
     @GetMapping("/{id}")
     fun findById(@PathVariable id: Int): BookResponse = bookService.findById(id).toBookResponse()
