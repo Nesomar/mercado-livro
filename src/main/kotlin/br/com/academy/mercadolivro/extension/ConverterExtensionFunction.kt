@@ -5,10 +5,12 @@ import br.com.academy.mercadolivro.controller.request.CustomerRequest
 import br.com.academy.mercadolivro.controller.request.PutBookRequest
 import br.com.academy.mercadolivro.controller.response.BookResponse
 import br.com.academy.mercadolivro.controller.response.CustomerResponse
+import br.com.academy.mercadolivro.controller.response.PageResponse
 import br.com.academy.mercadolivro.enums.BookStatus
 import br.com.academy.mercadolivro.enums.CustomerStatus
 import br.com.academy.mercadolivro.model.Book
 import br.com.academy.mercadolivro.model.Customer
+import org.springframework.data.domain.Page
 
 fun CustomerRequest.toCustomer(): Customer =
     Customer(name = this.nome, email = this.email, status = CustomerStatus.ATIVO, password = this.password)
@@ -47,3 +49,11 @@ fun Book.toBookResponse() = BookResponse(
     customerId = this.customer?.id,
     status = this.status
 )
+
+fun <T> Page<T>.toPageResponse(): PageResponse<T> {
+    return PageResponse(
+        this.content,
+        this.number,
+        this.totalElements,
+        this.totalPages)
+}
