@@ -24,7 +24,7 @@ class BookService(private val bookRepository: BookRepository, @Lazy private val 
         return bookRepository.findAll(pageable)
     }
 
-    fun findByStatus(pageable: Pageable): Page<Book> {
+    fun findByStatusActive(pageable: Pageable): Page<Book> {
         return bookRepository.findByStatus(BookStatus.ATIVO, pageable)
     }
 
