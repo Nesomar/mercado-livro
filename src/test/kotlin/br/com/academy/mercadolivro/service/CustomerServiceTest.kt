@@ -1,9 +1,7 @@
 package br.com.academy.mercadolivro.service
 
-import br.com.academy.mercadolivro.enums.CustomerStatus
-import br.com.academy.mercadolivro.enums.UserRoles
 import br.com.academy.mercadolivro.exception.NotFoundException
-import br.com.academy.mercadolivro.model.Customer
+import br.com.academy.mercadolivro.helper.buildCustomer
 import br.com.academy.mercadolivro.repository.CustomerRepository
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
@@ -21,7 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import java.util.*
 
 @ExtendWith(MockKExtension::class)
-class CustomerServiceTest {
+internal class CustomerServiceTest {
 
     @MockK
     private lateinit var customerRepository: CustomerRepository
@@ -275,18 +273,4 @@ class CustomerServiceTest {
 
         verify(exactly = 1) { customerRepository.findById(id) }
     }
-
-    private fun buildCustomer(
-        id: Int? = (Math.random() * 10).toInt(),
-        name: String = "customer name",
-        email: String = "${UUID.randomUUID()}@email.com",
-        password: String = "password"
-    ) = Customer(
-        id = id,
-        name = name,
-        email = email,
-        status = CustomerStatus.ATIVO,
-        password = password,
-        roles = setOf(UserRoles.CUSTOMER)
-    )
 }

@@ -1,18 +1,15 @@
 package br.com.academy.mercadolivro.service
 
 import br.com.academy.mercadolivro.enums.BookStatus
-import br.com.academy.mercadolivro.enums.CustomerStatus
-import br.com.academy.mercadolivro.enums.UserRoles
 import br.com.academy.mercadolivro.exception.NotFoundException
-import br.com.academy.mercadolivro.model.Book
-import br.com.academy.mercadolivro.model.Customer
+import br.com.academy.mercadolivro.helper.buildBook
+import br.com.academy.mercadolivro.helper.buildCustomer
 import br.com.academy.mercadolivro.repository.BookRepository
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.SpyK
 import io.mockk.junit5.MockKExtension
-import io.mockk.runs
 import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -22,7 +19,6 @@ import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
-import java.math.BigDecimal
 import java.util.*
 
 @ExtendWith(MockKExtension::class)
@@ -193,40 +189,4 @@ internal class BookServiceTest {
 
         verify(exactly = 1) { bookRepository.saveAll(booksMock) }
     }
-
-    private fun buildBook(
-        id: Int = (Math.random() * 10).toInt(),
-        name: String = "Book Name",
-        price: BigDecimal = BigDecimal.ONE,
-        customer: Customer = buildCustomer()
-    ) = Book(
-        id = id,
-        name = name,
-        price = price,
-        customer = customer
-    )
-
-    private fun buildBook(
-        id: Int = (Math.random() * 10).toInt(),
-        name: String = "Book Name",
-        price: BigDecimal = BigDecimal.ONE
-    ) = Book(
-        id = id,
-        name = name,
-        price = price
-    )
-
-    private fun buildCustomer(
-        id: Int? = (Math.random() * 10).toInt(),
-        name: String = "customer name",
-        email: String = "${UUID.randomUUID()}@email.com",
-        password: String = "password"
-    ) = Customer(
-        id = id,
-        name = name,
-        email = email,
-        status = CustomerStatus.ATIVO,
-        password = password,
-        roles = setOf(UserRoles.CUSTOMER)
-    )
 }
