@@ -1,14 +1,15 @@
 package br.com.academy.mercadolivro.service
 
-import br.com.academy.mercadolivro.enums.CustomerStatus
-import br.com.academy.mercadolivro.enums.UserRoles
 import br.com.academy.mercadolivro.exception.NotFoundException
-import br.com.academy.mercadolivro.model.Customer
+import br.com.academy.mercadolivro.helper.buildCustomer
 import br.com.academy.mercadolivro.repository.CustomerRepository
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.SpyK
 import io.mockk.junit5.MockKExtension
+import io.mockk.just
+import io.mockk.runs
 import io.mockk.verify
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -18,7 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import java.util.*
 
 @ExtendWith(MockKExtension::class)
-class CustomerServiceTest {
+internal class CustomerServiceTest {
 
     @MockK
     private lateinit var customerRepository: CustomerRepository
@@ -30,6 +31,7 @@ class CustomerServiceTest {
     private lateinit var bCryptPasswordEncoder: BCryptPasswordEncoder
 
     @InjectMockKs
+    @SpyK
     private lateinit var customerService: CustomerService
 
     @Test
@@ -172,18 +174,17 @@ class CustomerServiceTest {
 
         val customerMock = buildCustomer(id = id)
 
-        every { bookService.deleteByCustomer(customerMock) } returns Unit
+        every { customerService.findCustomerById(id) } returns customerMock
+
+        every { bookService.deleteByCustomer(customerMock) } just runs
 
         every { customerRepository.save(customerMock) } returns customerMock
 
-        every { customerRepository.findById(id) } returns Optional.of(customerMock)
-
         assertDoesNotThrow { customerService.deleteCustomer(id) }
-
 
         verify(exactly = 1) { bookService.deleteByCustomer(customerMock) }
         verify(exactly = 1) { customerRepository.save(customerMock) }
-        verify(exactly = 1) { customerRepository.findById(id) }
+        verify(exactly = 1) { customerService.findCustomerById(id) }
 
     }
 
@@ -272,18 +273,4 @@ class CustomerServiceTest {
 
         verify(exactly = 1) { customerRepository.findById(id) }
     }
-
-    private fun buildCustomer(
-        id: Int? = (Math.random() * 10).toInt(),
-        name: String = "customer name",
-        email: String = "${UUID.randomUUID()}@email.com",
-        password: String = "password"
-    ) = Customer(
-        id = id,
-        name = name,
-        email = email,
-        status = CustomerStatus.ATIVO,
-        password = password,
-        roles = setOf(UserRoles.CUSTOMER)
-    )
 }
