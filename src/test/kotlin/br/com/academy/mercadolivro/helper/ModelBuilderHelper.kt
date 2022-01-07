@@ -1,5 +1,6 @@
 package br.com.academy.mercadolivro.helper
 
+import br.com.academy.mercadolivro.enums.BookStatus
 import br.com.academy.mercadolivro.enums.CustomerStatus
 import br.com.academy.mercadolivro.enums.UserRoles
 import br.com.academy.mercadolivro.model.Book
@@ -25,11 +26,14 @@ fun buildCustomer(
 fun buildBook(
     id: Int = (Math.random() * 10).toInt(),
     name: String = "Book Name",
-    price: BigDecimal = BigDecimal.TEN
+    price: BigDecimal = BigDecimal.TEN,
+    customer: Customer? = buildCustomer()
 ) = Book(
     id = id,
     name = name,
-    price = price
+    price = price,
+    customer = customer,
+    status = BookStatus.ATIVO
 )
 
 fun buildPurchase(
