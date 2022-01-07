@@ -31,6 +31,7 @@ dependencies {
 	implementation("io.jsonwebtoken:jjwt:0.9.1")
 	runtimeOnly("mysql:mysql-connector-java")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.springframework.security:spring-security-test:4.0.0.RELEASE")
 	testImplementation("io.mockk:mockk:1.12.2")
 
 }

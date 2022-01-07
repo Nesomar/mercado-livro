@@ -50,7 +50,7 @@ class ExceptionHandler {
         exception: MethodArgumentNotValidException,
         request: WebRequest
     ): ResponseEntity<ErrorResponse> {
-        return ResponseEntity.badRequest()
+        return ResponseEntity.unprocessableEntity()
             .body(
                 ErrorResponse(
                     HttpStatus.UNPROCESSABLE_ENTITY.value(),

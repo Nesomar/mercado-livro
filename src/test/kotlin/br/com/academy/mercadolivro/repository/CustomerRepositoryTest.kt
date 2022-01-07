@@ -2,6 +2,7 @@ package br.com.academy.mercadolivro.repository
 
 import br.com.academy.mercadolivro.helper.buildCustomer
 import io.mockk.junit5.MockKExtension
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
@@ -20,7 +21,14 @@ class CustomerRepositoryTest {
     private lateinit var customerRepository: CustomerRepository
 
     @BeforeEach
-    fun clearDateBase() = customerRepository.deleteAll()
+    fun clearDataBase() {
+        customerRepository.deleteAll()
+    }
+
+    @AfterEach
+    fun tearDown() {
+        customerRepository.deleteAll()
+    }
 
     @Test
     fun `should return name containing`() {

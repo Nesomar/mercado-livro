@@ -4,6 +4,7 @@ import br.com.academy.mercadolivro.enums.BookStatus
 import br.com.academy.mercadolivro.helper.buildBook
 import br.com.academy.mercadolivro.helper.buildCustomer
 import io.mockk.junit5.MockKExtension
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -26,6 +27,12 @@ class BookRepositoryTest {
 
     @BeforeEach
     fun clearDataBase() {
+        bookRepository.deleteAll()
+        customerRepository.deleteAll()
+    }
+
+    @AfterEach
+    fun tearDown() {
         bookRepository.deleteAll()
         customerRepository.deleteAll()
     }
