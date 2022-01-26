@@ -52,7 +52,7 @@ class CustomerService(
         return customerRepository.save(customer).id
     }
 
-    fun emailAvailable(value: String?): Boolean {
+    fun emailAvailable(value: String): Boolean {
         return !customerRepository.existsByEmail(value)
     }
 
